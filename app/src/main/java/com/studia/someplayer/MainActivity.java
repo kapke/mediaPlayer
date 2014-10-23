@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import java.net.URI;
+import java.util.List;
 
 
 public class MainActivity extends Activity {
@@ -12,8 +16,19 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TextView text = (TextView)this.findViewById(R.id.textView);
+        AudioProvider audioProvider = new FilesystemAudioProvider();
+        audioProvider.setAudioExtensions(new String[]{"wav", "mp3"});
+        List<URI> foundFiles = audioProvider.getFiles();
+        for(URI file : foundFiles) {
+            text.append(file.toString()+"\n");
+        }
     }
 
+    @Override
+    protected void onResume () {
+        super.onResume();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
